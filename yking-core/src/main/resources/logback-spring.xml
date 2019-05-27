@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+    <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
+    <property name="LOG_HOME" value="/home"/>
+
+    <!-- 本地开发控制台日志输出设置 -->
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoder 可以指定字符集，对于中文输出有意义 -->
+        <encoder charset="utf-8">
+            <!-- %.-1level 只显示信息级别的首字母,%-5level 左对齐显示信息级别全称 -->
+            <!-- 如需自定义关键字，用 %mdc{键名} 表示,程序中用MDC.put("键名","键值")设置，可动态设置 [%logger:%line] -->
+            <Pattern>[%date{MM-dd HH:mm:ss:sss}] [%thread] [%-5level] %logger %line %msg%n</Pattern>
+        </encoder>>
+    </appender>
+
+    <!--输出到文件-->
+    <appender name="logfile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/data/logs/yking/yking.log</file>
+        <encoder charset="utf-8">
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] %-5level [%thread] %logger{50} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 日志输出级别 -->
+    <root>
+        <level value="INFO" />
+        <appender-ref ref="stdout" />
+        <appender-ref ref="logfile" />
+    </root>
+
+    <!-- 开发环境 + 测试环境. -->
+    <springProfile name="test,dev">
+        <logger name="vip.websky" level="DEBUG" />
+    </springProfile>
+    <!-- 生产环境. -->
+    <springProfile name="prod">
+        <logger name="vip.websky" level="INFO" />
+    </springProfile>
+    <!-- 外部jar包 日志级别设置 ${logger_outside_logLevel} -->
+    <logger level="INFO" name="org.springframework"/>
+    <logger level="INFO" name="org.mybatis"/>
+    <logger level="INFO" name="com.baomidou"/>
+    <logger level="INFO" name="org.flowable"/>
+    <logger level="ERROR" name="org.thymeleaf"/>
+
+    <!--日志异步到数据库 -->
+    <!--    <appender name="DB" class="ch.qos.logback.classic.db.DBAppender">
+            &lt;!&ndash;日志异步到数据库 &ndash;&gt;
+            <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
+                &lt;!&ndash;连接池 &ndash;&gt;
+                <dataSource class="com.mchange.v2.c3p0.ComboPooledDataSource">
+                    <driverClass>com.mysql.jdbc.Driver</driverClass>
+                    <url>jdbc:mysql://127.0.0.1:3306/databaseName</url>
+                    <user>root</user>
+                    <password>root</password>
+                </dataSource>
+            </connectionSource>
+        </appender>-->
+</configuration>

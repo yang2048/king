@@ -1,0 +1,40 @@
+spring:
+  datasource:
+    name: mysql_test
+    type: com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    platform: mysql
+    url: jdbc:mysql://127.0.0.1:3306/yking?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: root
+    hikari:
+      pool-name: DatebookHikariCP
+      minimum-idle: 5
+      maximum-pool-size: 15
+      auto-commit: true
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+    database: 0
+    timeout: 10000
+
+#MyBatis
+mybatis-plus:
+  #mapper-locations: classpath*:/vip/websky/**/dao/xml/*Mapper.xml
+  typeAliasesPackage: vip.websky.**.model.pojo
+  typeEnumsPackage: vip.websky.**.model.enums
+  global-config:
+    db-config:
+      #主键类型
+      id-type: ID_WORKER_STR
+      #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+      field-strategy: not_empty
+      table-prefix: y_
+  configuration:
+    #自动驼峰命名规则
+    map-underscore-to-camel-case: true
