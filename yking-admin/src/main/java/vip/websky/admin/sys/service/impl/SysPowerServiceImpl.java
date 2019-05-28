@@ -49,7 +49,7 @@ public class SysPowerServiceImpl extends ServiceImpl<SysPowerMapper, SysPower> i
     public Page<SysPowerVO> getSysPowerPage(SysPowerDTO sysPowerDTO) {
         Page<SysPowerVO> powerVOPage = new Page<>();
         QueryWrapper<SysPower> qw = new QueryWrapper<>();
-        if (StrUtil.isNotEmpty(sysPowerDTO.getPowerType())) {
+        if (sysPowerDTO.getPowerType() != null) {
             qw.lambda().eq(SysPower::getPowerType, sysPowerDTO.getPowerType());
         }
         if (StrUtil.isNotEmpty(sysPowerDTO.getSearchValue())) {
@@ -68,7 +68,7 @@ public class SysPowerServiceImpl extends ServiceImpl<SysPowerMapper, SysPower> i
     @Override
     public void removeSysPower(List<String> idList) {
         int result = baseMapper.deleteBatchIds(idList);
-        if (result < idList.size()){
+        if (result < idList.size()) {
             throw new CommonsRuntimeException(StatusCode.RTN_CODE_UNKNOW_ERROR, "删除异常");
         }
     }
@@ -85,7 +85,7 @@ public class SysPowerServiceImpl extends ServiceImpl<SysPowerMapper, SysPower> i
         if (StrUtil.isNotEmpty(sysPowerDTO.getPowerCode())) {
             qw.lambda().eq(SysPower::getPowerCode, sysPowerDTO.getPowerCode());
         }
-        if (StrUtil.isNotEmpty(sysPowerDTO.getPowerType())) {
+        if (sysPowerDTO.getPowerType() != null) {
             qw.lambda().eq(SysPower::getPowerType, sysPowerDTO.getPowerType());
         }
         List<SysPower> powerList = baseMapper.selectList(qw);

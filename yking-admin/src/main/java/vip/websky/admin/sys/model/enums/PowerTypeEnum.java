@@ -27,4 +27,13 @@ public enum PowerTypeEnum implements IEnum<String> {
     public String getDesc(){
         return this.desc;
     }
+
+    public static PowerTypeEnum statusOf(String statusValue){
+        for (PowerTypeEnum typeEnum : PowerTypeEnum.values()) {
+            if (typeEnum.value.equals(statusValue)) {
+                return typeEnum;
+            }
+        }
+        return PowerTypeEnum.page;
+    }
 }

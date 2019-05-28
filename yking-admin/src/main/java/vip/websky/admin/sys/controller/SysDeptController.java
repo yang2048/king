@@ -11,7 +11,7 @@ import vip.websky.admin.sys.model.vo.SysDeptVO;
 import vip.websky.admin.sys.service.ISysDeptService;
 import vip.websky.core.base.action.BaseAction;
 import vip.websky.core.base.model.dto.ResponseDTO;
-import vip.websky.core.utils.Json2bean;
+import vip.websky.core.utils.ObjectConvertUtils;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -45,7 +45,7 @@ public class SysDeptController extends BaseAction {
     @RequestMapping(value = "/get", method = {RequestMethod.GET})
     public ResponseDTO<Collection> getDept(SysDeptDTO sysDeptDTO) {
         List<SysDeptVO> menuList = deptService.getSysDeptByObjs(sysDeptDTO);
-        Collection<SysDeptVO> menus = Json2bean.toTree(menuList, "orgId", "parentId", "children", SysDeptVO.class);
+        Collection<SysDeptVO> menus = ObjectConvertUtils.toTree(menuList, "orgId", "parentId", "children", SysDeptVO.class);
         return ResponseDTO.success(menus);
     }
 

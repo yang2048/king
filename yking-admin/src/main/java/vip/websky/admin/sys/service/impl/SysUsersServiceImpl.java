@@ -10,6 +10,7 @@ import vip.websky.admin.sys.constants.DbConstants;
 import vip.websky.admin.sys.dao.SysUsersMapper;
 import vip.websky.admin.sys.model.dto.SysRoleDTO;
 import vip.websky.admin.sys.model.dto.SysUsersDTO;
+import vip.websky.admin.sys.model.enums.StatusEnum;
 import vip.websky.admin.sys.model.pojo.SysUsers;
 import vip.websky.admin.sys.model.vo.SysUsersVO;
 import vip.websky.admin.sys.service.ISysUsersService;
@@ -42,7 +43,7 @@ public class SysUsersServiceImpl extends ServiceImpl<SysUsersMapper, SysUsers> i
         user.setOrgId(DbConstants.ORG_DEFAULT);
         user.setCipher("123456");
         user.setCreatedBy("admin");
-        user.setState(DbConstants.STATE_NORMAL);
+        user.setState(StatusEnum.normal);
         int result = baseMapper.insert(user);
         return result > 0 ? ObjectConvertUtils.copyToDest(user, SysUsersVO.class) : null;
     }

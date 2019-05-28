@@ -6,9 +6,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
-import vip.websky.admin.sys.constants.DbConstants;
 import vip.websky.admin.sys.dao.SysRoleMapper;
 import vip.websky.admin.sys.model.dto.SysRoleDTO;
+import vip.websky.admin.sys.model.enums.StatusEnum;
 import vip.websky.admin.sys.model.pojo.SysRole;
 import vip.websky.admin.sys.model.vo.SysRoleVO;
 import vip.websky.admin.sys.service.ISysRoleService;
@@ -35,7 +35,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
             throw new CommonsRuntimeException(StatusCode.RTN_NOT_NULL, "该角色名已被创建");
         }
         SysRole sysRole = ObjectConvertUtils.copyToDest(sysRoleDTO, SysRole.class);
-        sysRole.setRoleStatus(DbConstants.STATE_NORMAL);
+        sysRole.setRoleStatus(StatusEnum.normal);
         int result = baseMapper.insert(sysRole);
         return result > 0 ? ObjectConvertUtils.copyToDest(sysRole, SysRoleVO.class) : null;
     }
