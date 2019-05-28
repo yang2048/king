@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import vip.websky.admin.sys.model.enums.StatusEnum;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -25,7 +26,7 @@ public class SysRoleVO implements Serializable {
     //角色名称
     private String roleName;
     //状态
-    private String roleStatus;
+    private StatusEnum roleStatus;
     //创建人
     private String createdBy;
     //创建时间

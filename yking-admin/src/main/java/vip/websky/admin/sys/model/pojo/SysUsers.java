@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import vip.websky.admin.sys.model.enums.StatusEnum;
 import vip.websky.admin.sys.model.enums.UserSexEnum;
 
 import java.io.Serializable;
@@ -68,7 +69,7 @@ public class SysUsers implements Serializable {
 
     @ApiModelProperty(value = "状态 0：冻结，1：正常，")
     @TableField("state")
-    private String state;
+    private StatusEnum state;
 
     @ApiModelProperty(value = "创建人")
     @TableField(value = "created_by", fill = FieldFill.INSERT)

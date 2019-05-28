@@ -1,10 +1,14 @@
 package vip.websky.admin.sys.model.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import java.time.LocalDateTime;
+import vip.websky.admin.sys.model.enums.PowerTypeEnum;
+import vip.websky.admin.sys.model.enums.StatusEnum;
+
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * 权限菜单(SysPower) 表dto实体类
@@ -25,7 +29,7 @@ public class SysPowerVO implements Serializable {
     //名称
     private String powerName;
     //类型
-    private String powerType;
+    private PowerTypeEnum powerType;
     //链接
     private String powerUrl;
     //打开方式
@@ -37,13 +41,15 @@ public class SysPowerVO implements Serializable {
     //排序
     private String powerSort;
     //状态
-    private String powerStatus;
+    private StatusEnum powerStatus;
     //创建人
     private String createdBy;
     //创建时间
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdTime;
     //更新人
     private String updatedBy;
     //更新时间
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedTime;
 }

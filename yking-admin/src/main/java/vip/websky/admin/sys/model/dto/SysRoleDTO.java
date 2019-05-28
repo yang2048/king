@@ -3,6 +3,7 @@ package vip.websky.admin.sys.model.dto;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import vip.websky.admin.sys.model.enums.StatusEnum;
 import vip.websky.core.base.model.dto.RequestDTO;
 
 import javax.validation.constraints.NotBlank;
@@ -26,5 +27,5 @@ public class SysRoleDTO extends RequestDTO implements Serializable {
     @NotBlank(message = "角色名称不能为空")
     private String roleName;
     //状态
-    private String roleStatus;
+    private StatusEnum roleStatus;
 }

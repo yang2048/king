@@ -39,7 +39,7 @@ public class SysRole implements Serializable {
 
     @ApiModelProperty(value = "状态")
     @TableField("role_status")
-    private String roleStatus;
+    private StatusEnum roleStatus;
 
     @ApiModelProperty(value = "创建人")
     @TableField(value = "created_by", fill = FieldFill.INSERT)

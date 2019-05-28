@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import vip.websky.admin.sys.model.enums.StatusEnum;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -67,7 +68,7 @@ public class SysPower implements Serializable {
 
     @ApiModelProperty(value = "状态")
     @TableField("power_status")
-    private String powerStatus;
+    private StatusEnum powerStatus;
 
     @ApiModelProperty(value = "创建人")
     @TableField(value = "created_by", fill = FieldFill.INSERT)

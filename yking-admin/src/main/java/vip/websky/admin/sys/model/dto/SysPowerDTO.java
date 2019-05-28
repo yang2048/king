@@ -3,6 +3,8 @@ package vip.websky.admin.sys.model.dto;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import vip.websky.admin.sys.model.enums.PowerTypeEnum;
+import vip.websky.admin.sys.model.enums.StatusEnum;
 import vip.websky.core.base.model.dto.RequestDTO;
 
 import javax.validation.constraints.NotBlank;
@@ -29,7 +31,7 @@ public class SysPowerDTO extends RequestDTO implements Serializable {
     private String powerName;
     //类型
     @NotBlank(message = "权限类型不能为空")
-    private String powerType;
+    private PowerTypeEnum powerType;
     //链接
     private String powerUrl;
     //打开方式
@@ -41,5 +43,5 @@ public class SysPowerDTO extends RequestDTO implements Serializable {
     //排序
     private String powerSort;
     //状态
-    private String powerStatus;
+    private StatusEnum powerStatus;
 }
