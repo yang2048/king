@@ -1,6 +1,6 @@
 package vip.websky.admin.sys.dao;
 
-import vip.websky.admin.sys.model.pojo.SysPower;
+import vip.websky.admin.sys.model.pojo.SysPrivilege;
 import vip.websky.core.base.dao.SuperMapper;
 
 /**
@@ -9,6 +9,6 @@ import vip.websky.core.base.dao.SuperMapper;
  * @author Yong.Yang
  * @since 2019-05-11 17:52:20
  */
-public interface SysPowerMapper extends SuperMapper<SysPower> {
+public interface SysPrivilegeMapper extends SuperMapper<SysPrivilege> {
 
 }

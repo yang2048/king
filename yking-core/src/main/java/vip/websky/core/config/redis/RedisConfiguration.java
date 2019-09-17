@@ -35,7 +35,7 @@ public class RedisConfiguration {
         //是否启用pool的jmx管理功能, 默认true
         config.setJmxEnabled(true);
 
-        //MBean ObjectName = new ObjectName("org.apache.commons.pool2:type=GenericObjectPool,name=" + "pool" + i); 默 认为"pool", JMX不熟,具体不知道是干啥的...默认就好.
+        //MBean ObjectName = new ObjectName("org.apache.commons.pool2:type=GenericObjectPool,name=" + "pool" + i); 默 认为"pool"
         config.setJmxNamePrefix("pool");
 
         //是否启用后进先出, 默认true
@@ -70,15 +70,14 @@ public class RedisConfiguration {
 
         //逐出扫描的时间间隔(毫秒) 如果为负数,则不运行逐出线程, 默认-1
         config.setTimeBetweenEvictionRunsMillis(-1);
-        JedisPool jedisPool ;
+        JedisPool jedisPool;
         if (password != null && !"".equals(password)) {
             jedisPool = new JedisPool(config, host, port, timeouts, password);
         } else {
             jedisPool = new JedisPool(config, host, port, timeouts);
         }
-        log.info("============== JedisPool启动完成:{} ==============",jedisPool.getResource().ping());
+        log.info("============== JedisPool启动完成:{} ==============", jedisPool.getResource().ping());
         return jedisPool;
 
     }
-
 }

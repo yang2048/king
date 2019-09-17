@@ -22,6 +22,8 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     public void insertFill(MetaObject metaObject) {
         Object createTime = getFieldValByName("createdTime", metaObject);
         Object createdBy =getFieldValByName("createdBy", metaObject);
+        Object updatedTime = getFieldValByName("updatedTime", metaObject);
+        Object updatedBy =getFieldValByName("updatedBy", metaObject);
         Object deleted =getFieldValByName("deleted", metaObject);
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
         System.out.println("==> 请求者的IP："+request.getRemoteAddr());
@@ -30,6 +32,12 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         }
         if (createTime == null) {
             setFieldValByName("createdTime", LocalDateTime.now(), metaObject);
+        }
+        if (updatedBy == null) {
+            setFieldValByName("updatedBy", "admin", metaObject);
+        }
+        if (updatedTime == null) {
+            setFieldValByName("updatedTime", LocalDateTime.now(), metaObject);
         }
         if (deleted == null) {
             //0:正常，1:删除

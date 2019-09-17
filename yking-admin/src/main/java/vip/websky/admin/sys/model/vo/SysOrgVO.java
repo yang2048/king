@@ -6,8 +6,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * 机构信息(SysDept) 表dto实体类
@@ -17,10 +17,10 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value = "SysOrganizations对象", description = "机构信息")
-public class SysDeptVO implements Serializable {
+@ApiModel(value = "SysOrgVO对象", description = "机构信息")
+public class SysOrgVO implements Serializable {
     //机构标识
-    private String orgId;
+    private String id;
     //机构父标识
     private String parentId;
     //机构编码
@@ -29,6 +29,8 @@ public class SysDeptVO implements Serializable {
     private String orgName;
     //机构图标
     private String orgLogo;
+    // 排序
+    private BigDecimal orders;
     //创建人
     private String createdBy;
     //创建时间
@@ -39,5 +41,5 @@ public class SysDeptVO implements Serializable {
     //更新时间
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedTime;
-    private List<SysDeptVO> children;
+    //private List<SysOrgVO> children;
 }

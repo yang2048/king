@@ -1,23 +1,23 @@
 package vip.websky.admin.sys.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import vip.websky.admin.sys.model.dto.SysUserRoleDTO;
 import vip.websky.admin.sys.model.dto.SysUsersDTO;
+import vip.websky.admin.sys.model.pojo.SysUsers;
 import vip.websky.admin.sys.model.vo.SysUsersVO;
 import vip.websky.admin.sys.service.ISysUsersService;
 import vip.websky.core.base.action.BaseAction;
+import vip.websky.core.base.model.dto.RequestDTO;
 import vip.websky.core.base.model.dto.ResponseDTO;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -29,57 +29,32 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/sys/users")
-public class SysUsersController extends BaseAction {
+public class SysUsersController implements BaseAction<SysUsers, SysUsersVO, SysUsersDTO,ISysUsersService> {
     @Autowired
     private ISysUsersService usersService;
 
-    /**
-     * 添加用户
-     *
-     * @param sysUsersDTO
-     * @return ResponseDTO
-     */
-    @RequestMapping(value = "/save", method = {RequestMethod.POST})
-    public ResponseDTO<SysUsersVO> saveUser(@Validated SysUsersDTO sysUsersDTO) {
-        return ResponseDTO.success(usersService.saveSysUsers(sysUsersDTO));
+    @Override
+    public ISysUsersService baseService() {
+        return usersService;
     }
 
-    @RequestMapping(value = "/update", method = {RequestMethod.PATCH})
-    public ResponseDTO<SysUsersVO> updateDept(@Validated SysUsersDTO sysUsersDTO) {
-        return ResponseDTO.success(usersService.updateSysUsers(sysUsersDTO));
+    @RequestMapping(value = "/saveUserRole", method = {RequestMethod.POST})
+    public ResponseDTO saveUserRoleBatch(@RequestBody @Validated List<SysUserRoleDTO> sysUserRoleDTOList) {
+        //List<SysUserRoleDTO> sysUserRoleDTOList = new ArrayList<>();
+        return ResponseDTO.success(baseService().saveUserRoleBatch(sysUserRoleDTOList));
     }
 
-    /**
-     * 查询用户列表
-     *
-     * @param sysUsersDTO
-     * @return ResponseDTO
-     */
-    @ApiOperation(value = "查询用户列表", notes = "根据用户id修改密码")
-    @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "searchValue", value = "查询关键字", dataType = "String"),
-            @ApiImplicitParam(paramType = "query", name = "gender", value = "性别", dataType = "String"),
-            @ApiImplicitParam(paramType = "query", name = "status", value = "状态", dataType = "String"),
-            @ApiImplicitParam(paramType = "query", name = "pageNumber", value = "页码", required = true, dataType = "String", defaultValue = "1"),
-            @ApiImplicitParam(paramType = "query", name = "pageSize", value = "页容量", required = true, dataType = "String", defaultValue = "10"),
-    })
-    @RequestMapping(value = "/getUsersPage", method = {RequestMethod.GET})
-    public ResponseDTO<Page> getSysUsersPage(SysUsersDTO sysUsersDTO) {
-        return ResponseDTO.success(usersService.getSysUsersPage(sysUsersDTO));
+    @RequestMapping(value = "/removeUserRole", method = {RequestMethod.DELETE})
+    public ResponseDTO removeUserRole(@RequestBody @Validated List<SysUserRoleDTO> sysUserRoleDTOList) {
+        boolean result = baseService().removeUserRoleBatch(sysUserRoleDTOList);
+        if (!result){
+            return ResponseDTO.error("000003","该数据异常,请重试");
+        }
+        return ResponseDTO.success(true);
     }
 
-    @RequestMapping(value = "/remove", method = {RequestMethod.DELETE})
-    public ResponseDTO removeUsers(@NotNull String ids) {
-        List<String> idList = Arrays.asList(ids.split(","));
-        usersService.removeSysUsers(idList);
-        return ResponseDTO.success();
+    @RequestMapping(value = "/getRoleUsersPage", method = {RequestMethod.GET})
+    public ResponseDTO<Page> getRoleUsersPage(Map<String, Object> searchValue, SysUserRoleDTO findDTO, RequestDTO requestDTO) {
+        return ResponseDTO.success(baseService().getRoleUsersPageByObjs(findDTO, requestDTO));
     }
-
-    @RequestMapping(value = "/getUser", method = {RequestMethod.GET})
-    public ResponseDTO<List> getSysUser(SysUsersDTO sysUsersDTO) {
-        List<SysUsersVO> result = usersService.getSysUsersByObjs(sysUsersDTO);
-        return ResponseDTO.success(result);
-    }
-
-
 }

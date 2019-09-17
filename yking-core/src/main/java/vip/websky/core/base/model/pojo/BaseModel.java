@@ -1,49 +1,26 @@
-package vip.websky.admin.sys.model.pojo;
+package vip.websky.core.base.model.pojo;
 
 import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * <p>
- * 机构信息
- * </p>
- *
  * @author Yong.Yang
- * @since 2019-05-02
+ * @since 2019/8/9 21:53
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
-@TableName("y_sys_Dept")
-@ApiModel(value = "SysDept对象", description = "机构信息 ")
-public class SysDept implements Serializable {
+@Getter
+@Setter
+@ApiModel(value = "公共字段", description = "公共字段 ")
+public class BaseModel implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    @ApiModelProperty(value = "机构标识")
-    @TableId(value = "org_id", type = IdType.ID_WORKER_STR)
-    private String orgId;
-
-    @ApiModelProperty(value = "机构父标识")
-    @TableField("parent_id")
-    private String parentId;
-
-    @ApiModelProperty(value = "机构编码")
-    @TableField("org_code")
-    private String orgCode;
-
-    @ApiModelProperty(value = "机构名称")
-    @TableField("org_name")
-    private String orgName;
-
-    @ApiModelProperty(value = "机构图标")
-    @TableField("org_logo")
-    private String orgLogo;
+    @ApiModelProperty(value = "主键ID")
+    @TableId(value = "id", type = IdType.ID_WORKER_STR)
+    private String id;
 
     @ApiModelProperty(value = "创建人")
     @TableField(value = "created_by", fill = FieldFill.INSERT)
@@ -65,4 +42,9 @@ public class SysDept implements Serializable {
     @TableField(value = "deleted", fill = FieldFill.INSERT)
     @TableLogic
     private String deleted;
+
+    @ApiModelProperty(value = "乐观锁")
+    @TableField(value = "revision")
+    @Version
+    private Integer revision;
 }

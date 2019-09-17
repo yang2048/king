@@ -4,8 +4,8 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
-import vip.websky.admin.sys.model.enums.UserSexEnum;
-import vip.websky.core.base.model.dto.RequestDTO;
+import vip.websky.core.base.model.enums.StateEnum;
+import vip.websky.core.base.model.enums.UserSexEnum;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -21,9 +21,8 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "SysUsers对象", description = "基础用户")
-public class SysUsersDTO extends RequestDTO implements Serializable {
-    //用户识别号
-    private String userId;
+public class SysUsersDTO implements Serializable {
+    private String id;
     //所属机构
     private String orgId;
     //用户名
@@ -57,5 +56,5 @@ public class SysUsersDTO extends RequestDTO implements Serializable {
     //备注
     private String remark;
     //状态 0：冻结，1：正常，
-    private String state;
+    private StateEnum state;
 }

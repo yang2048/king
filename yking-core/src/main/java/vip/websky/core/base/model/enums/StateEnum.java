@@ -1,4 +1,4 @@
-package vip.websky.admin.sys.model.enums;
+package vip.websky.core.base.model.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -8,20 +8,17 @@ import lombok.Getter;
 
 /**
  * @author Yong.Yang
- * @since 2019/5/27 17:04
+ * @since 2019/5/27 16:59
  */
 @AllArgsConstructor
 @Getter
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum PowerTypeEnum{
-    page(1, "页面"),
-    catalog(2, "目录"),
-    button(3, "按钮"),
-    menu(4, "菜单");
+public enum StateEnum {
+    disable(0, "禁用"),
+    normal(1, "正常");
 
     @EnumValue
     @JsonValue
-    private Integer value;
-    private String desc;
-
+    private final Integer key;
+    private final String title;
 }

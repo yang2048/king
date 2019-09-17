@@ -50,27 +50,25 @@ public class WebLogAspect {
         HttpServletRequest request = attributes.getRequest();
         //打印请求参数
         Map<String, String[]> paramMap = request.getParameterMap();
-        if (paramMap != null && paramMap.size() > 0) {
-            StringBuffer paramSbf = new StringBuffer();
-            for (String mapKey : paramMap.keySet()) {
-                String[] mapValue = paramMap.get(mapKey);
-                //添加判断
-                if (mapValue != null && mapValue.length > 0) {
-                    for (String paramStr : mapValue) {
-                        if (StrUtil.isNotBlank(paramStr)) {
-                            paramSbf.append("" + mapKey + "=");
-                            paramSbf.append(paramStr);
-                            paramSbf.append(";");
-                        }
+        StringBuffer paramSbf = new StringBuffer();
+        for (String mapKey : paramMap.keySet()) {
+            String[] mapValue = paramMap.get(mapKey);
+            //添加判断
+            if (mapValue != null && mapValue.length > 0) {
+                for (String paramStr : mapValue) {
+                    if (StrUtil.isNotBlank(paramStr)) {
+                        paramSbf.append("" + mapKey + "=");
+                        paramSbf.append(paramStr);
+                        paramSbf.append(";");
                     }
                 }
             }
-            log.info("-->request请求参数 : \t" + paramSbf);
         }
+        log.info("-->request请求参数 : \t" + paramSbf);
         log.info("-->request请求URL : \t" + request.getRequestURL().toString());
         log.info("-->request请求方法 : \t" + request.getMethod());
         log.info("-->request请求IP :  \t" + getIpAddress(request));
-        log.info("-->request请求地区 :  \t" + GetAddressByIp(getIpAddress(request)));
+        //log.info("-->request请求地区 :  \t" + GetAddressByIp(getIpAddress(request)));
         //获取浏览器信息
         UserAgent ua = UserAgentUtil.parse(request.getHeader("User-Agent"));
         log.info("-->request操作系统 :  \t" + ua.getOs() + " 浏览器：" + ua.getBrowser());

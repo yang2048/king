@@ -20,10 +20,17 @@ public class RedisUtil {
         this.jedisPool = jedisPool;
     }
 
+    public RedisUtil() {
+        jedisPool = new JedisPool();
+    }
+
     private Jedis getJedis() {
         return jedisPool.getResource();
     }
 
+    public static RedisUtil getRedisUtil() {
+        return new RedisUtil();
+    }
     /**
      * 获取指定key的值,如果key不存在返回null，如果该Key存储的不是字符串，会抛出一个错误
      *
@@ -42,11 +49,10 @@ public class RedisUtil {
      *
      * @param key
      * @param value
-     * @return
      */
-    public String set(String key, String value) {
+    public void set(String key, String value) {
         Jedis jedis = getJedis();
-        return jedis.set(key, value);
+        jedis.set(key, value);
     }
 
     /**

@@ -1,11 +1,12 @@
 package vip.websky.core.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import vip.websky.core.base.model.dto.ResponseDTO;
 import vip.websky.core.config.prompt.StatusCode;
 
+import javax.validation.ConstraintViolationException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -31,27 +33,36 @@ public class CommonsExceptionHandler {
 
     /**
      * 参数提交异常捕获
-     * @param bindException
+     *
+     * @param e
      * @return ResponseDTO
      */
-    @ExceptionHandler(value = BindException.class)
+    @ExceptionHandler({MethodArgumentNotValidException.class, BindException.class, ConstraintViolationException.class})
     @ResponseBody
-    public ResponseDTO handlerBindException(BindException bindException) {
-        BindingResult result = bindException.getBindingResult();
-        List<ObjectError> errors = result.getAllErrors();
+    public ResponseDTO handlerMethodArgumentNotValidException(Exception e) {
+        List<ObjectError> errors = null;
+        if (e instanceof BindException) {
+            errors = ((BindException) e).getAllErrors();
+        }else if (e instanceof MethodArgumentNotValidException) {
+            errors = ((MethodArgumentNotValidException) e).getBindingResult().getAllErrors();
+        } else {
+            String messages = ((ConstraintViolationException) e).getMessage();
+            return ResponseDTO.error(StatusCode.RTN_CODE_UNKNOW_ERROR, messages);
+        }
         StringBuilder sb = new StringBuilder();
         sb.append("参数校验警告：");
         errors.forEach(p -> {
             FieldError fieldError = (FieldError) p;
             log.warn("参数校验警告==> 对象:{}, 字段:{}, 提示信息:{}",
-                    fieldError.getObjectName(),fieldError.getField(),fieldError.getDefaultMessage());
-            sb.append("["+fieldError.getDefaultMessage()+"]");
+                    fieldError.getObjectName(), fieldError.getField(), fieldError.getDefaultMessage());
+            sb.append("[" + fieldError.getDefaultMessage() + "]");
         });
         return ResponseDTO.error(StatusCode.RTN_CODE_UNKNOW_ERROR, sb.toString());
     }
 
     /**
      * 自定义异常捕获
+     *
      * @param e
      * @return
      */
@@ -61,12 +72,17 @@ public class CommonsExceptionHandler {
     public ResponseDTO commonsRuntimeException(Exception e) {
         if (e instanceof CommonsRuntimeException) {
             CommonsRuntimeException runtimeException = (CommonsRuntimeException) e;
-            log.warn("【自定义异常】 => rspCode: {}， rspMsg: {}", runtimeException.getCode(), runtimeException.getMessage());
-            return ResponseDTO.error(runtimeException.getCode(),runtimeException.getMessage());
-        } else {
+            log.warn("【自定义异常】 => rspCode: {}, rspMsg: {}", runtimeException.getCode(), runtimeException.getMessage());
+            return ResponseDTO.error(runtimeException.getCode(), runtimeException.getMessage());
+        }
+        if (e instanceof DataIntegrityViolationException){
+            DataIntegrityViolationException error = (DataIntegrityViolationException) e;
+            log.warn("【数据处理异常】 => rspMsg: {}", error.getMessage());
+            return ResponseDTO.error(StatusCode.RTN_CODE_UNKNOW_ERROR, "数据处理异常", stackTraceToString(e));
+        }else {
             //TODO 邮件通知
             log.error("【系统异常】 => rspCode:{},错误信息为：", StatusCode.RTN_CODE_UNKNOW_ERROR, e);
-            return ResponseDTO.error(StatusCode.RTN_CODE_UNKNOW_ERROR, e.getMessage(), stackTraceToString(e));
+            return ResponseDTO.error(StatusCode.RTN_CODE_UNKNOW_ERROR, null, stackTraceToString(e));
         }
     }
 

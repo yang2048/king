@@ -16,6 +16,8 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "SysConf对象", description = "系统配置")
 public class SysConfVO implements Serializable {
+
+    private String id;
     //配置键
     private String confKey;
     //配置值

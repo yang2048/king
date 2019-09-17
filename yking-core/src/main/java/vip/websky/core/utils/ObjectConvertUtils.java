@@ -37,8 +37,8 @@ public class ObjectConvertUtils {
 
         try {
             BeanUtils.copyProperties(orgi, dest);
-            log.debug("转换之前数据 ==> {}", orgi);
-            log.debug("转换之后数据 <== {}", dest);
+//            log.debug("转换之前数据 ==> {}", orgi);
+//            log.debug("转换之后数据 <== {}", dest);
         } catch (Exception e) {
             throw new CommonsRuntimeException(StatusCode.OBJECT_CONVERT_ERROR);
         }
@@ -58,8 +58,8 @@ public class ObjectConvertUtils {
         try {
             T t = tClass.newInstance();
             BeanUtils.copyProperties(orgi, t);
-            log.debug("转换之前数据 ==> {}", orgi);
-            log.debug("转换之后数据 <== {}", t);
+//            log.debug("转换之前数据 ==> {}", orgi);
+//            log.debug("转换之后数据 <== {}", t);
             return t;
         } catch (Exception e) {
             throw new CommonsRuntimeException(StatusCode.OBJECT_CONVERT_ERROR);
@@ -191,7 +191,7 @@ public class ObjectConvertUtils {
             idField.setAccessible(false);
             parentField.setAccessible(false);
             childrenField.setAccessible(false);
-            System.out.println("==========树形数据转换结束 "+timer.intervalRestart());
+            System.out.println("==========树形数据转换结束 " + timer.intervalRestart());
             return roots;
         } catch (Exception e) {
             e.printStackTrace();
@@ -252,13 +252,14 @@ public class ObjectConvertUtils {
 
     /**
      * List<Map>转树形结构
+     *
      * @param sourceList
      * @param idKey
      * @param parentKey
      * @param childrenStr
      * @return
      */
-    public static List<Map> listToTree(@NotNull List<Map<String,Object>> sourceList, @NotNull String idKey,
+    public static List<Map> listToTree(@NotNull List<Map<String, Object>> sourceList, @NotNull String idKey,
                                        @NotNull String parentKey, @NotNull String childrenStr) {
         Map<Object, Map> idKeyMap = new HashMap<>();
         for (Map itemMap : sourceList) {
@@ -297,10 +298,11 @@ public class ObjectConvertUtils {
 
     /**
      * 集合转List<Map<String, Object>>
+     *
      * @param list
      * @return
      */
-    public static List<Map<String, Object>> parse(List list){
+    public static List<Map<String, Object>> parse(List list) {
         List<Map<String, Object>> resultList = new ArrayList<>();
         for (Object o : list) {
             resultList.add(transBean2Map(o));
@@ -310,11 +312,12 @@ public class ObjectConvertUtils {
 
     /**
      * 对象转Map
+     *
      * @param obj
      * @return
      */
     private static Map<String, Object> transBean2Map(Object obj) {
-        if(obj == null){
+        if (obj == null) {
             return null;
         }
         Map<String, Object> map = new HashMap<>();

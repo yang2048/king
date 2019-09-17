@@ -1,15 +1,16 @@
 package vip.websky.admin.sys.model.pojo;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import vip.websky.admin.sys.model.enums.StatusEnum;
-import vip.websky.admin.sys.model.enums.UserSexEnum;
+import vip.websky.core.base.model.enums.StateEnum;
+import vip.websky.core.base.model.enums.UserSexEnum;
+import vip.websky.core.base.model.pojo.BaseModel;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -23,13 +24,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 @TableName("y_sys_users")
 @ApiModel(value = "SysUsers对象", description = "基础用户 ")
-public class SysUsers implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    @ApiModelProperty(value = "用户识别号")
-    @TableId(value = "user_id", type = IdType.ID_WORKER_STR)
-    private String userId;
+public class SysUsers extends BaseModel implements Serializable {
 
     @ApiModelProperty(value = "所属机构")
     @TableField("org_id")
@@ -63,32 +58,15 @@ public class SysUsers implements Serializable {
     @TableField("cipher")
     private String cipher;
 
+    @ApiModelProperty(value = "密码盐")
+    @TableField("salt")
+    private String salt;
+
     @ApiModelProperty(value = "备注")
     @TableField("remark")
     private String remark;
 
-    @ApiModelProperty(value = "状态 0：冻结，1：正常，")
+    @ApiModelProperty(value = "状态")
     @TableField("state")
-    private StatusEnum state;
-
-    @ApiModelProperty(value = "创建人")
-    @TableField(value = "created_by", fill = FieldFill.INSERT)
-    private String createdBy;
-
-    @ApiModelProperty(value = "创建时间")
-    @TableField(value = "created_time", fill = FieldFill.INSERT)
-    private LocalDateTime createdTime;
-
-    @ApiModelProperty(value = "更新人")
-    @TableField(value = "updated_by", fill = FieldFill.INSERT_UPDATE)
-    private String updatedBy;
-
-    @ApiModelProperty(value = "更新时间")
-    @TableField(value = "updated_time", fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updatedTime;
-
-    @ApiModelProperty(value = "是否删除 0:正常，1:删除")
-    @TableField(value = "deleted", fill = FieldFill.INSERT)
-    @TableLogic
-    private String deleted;
+    private StateEnum state;
 }

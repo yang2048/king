@@ -3,10 +3,10 @@ package vip.websky.admin.sys.model.dto;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import vip.websky.core.base.model.dto.RequestDTO;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * 机构信息(SysDept) 表vo实体类
@@ -17,9 +17,8 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "SysDept对象", description = "机构信息")
-public class SysDeptDTO extends RequestDTO implements Serializable {
-    //机构标识
-    private String orgId;
+public class SysOrgDTO implements Serializable {
+    private String id;
     //机构父标识
     private String parentId;
     //机构编码
@@ -30,4 +29,6 @@ public class SysDeptDTO extends RequestDTO implements Serializable {
     private String orgName;
     //机构图标
     private String orgLogo;
+    //机构排序
+    private BigDecimal orders;
 }

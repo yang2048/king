@@ -3,8 +3,7 @@ package vip.websky.admin.sys.model.dto;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import vip.websky.admin.sys.model.enums.StatusEnum;
-import vip.websky.core.base.model.dto.RequestDTO;
+import vip.websky.core.base.model.enums.StateEnum;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
@@ -18,14 +17,16 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "SysRole对象", description = "角色信息")
-public class SysRoleDTO extends RequestDTO implements Serializable {
+public class SysRoleDTO implements Serializable {
     //角色标识
-    private String roleId;
+    private String id;
     //角色类型
     private String roleType;
     //角色名称
     @NotBlank(message = "角色名称不能为空")
     private String roleName;
+    //描述
+    private String description;
     //状态
-    private StatusEnum roleStatus;
+    private StateEnum state;
 }

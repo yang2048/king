@@ -5,10 +5,7 @@ import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
-import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
-import com.baomidou.mybatisplus.generator.config.GlobalConfig;
-import com.baomidou.mybatisplus.generator.config.PackageConfig;
-import com.baomidou.mybatisplus.generator.config.StrategyConfig;
+import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 
@@ -42,7 +39,7 @@ public class MysqlGenerator {
         GlobalConfig gc = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
         gc.setOutputDir(projectPath + "/yking-core/src/test/java");
-        gc.setAuthor("Yong.Yang");
+        gc.setAuthor("Yang.Yong");
         gc.setOpen(false);
         gc.setFileOverride(true);
         gc.setSwagger2(true);
@@ -75,7 +72,7 @@ public class MysqlGenerator {
             }
         };
         mpg.setCfg(cfg);
-        //mpg.setTemplate(new TemplateConfig().setXml(null));
+        mpg.setTemplate(new TemplateConfig().setXml(null));
 
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();

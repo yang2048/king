@@ -1,13 +1,15 @@
 package vip.websky.admin.sys.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
-import vip.websky.admin.sys.model.dto.SysRoleDTO;
+import vip.websky.admin.sys.model.dto.SysUserRoleDTO;
 import vip.websky.admin.sys.model.dto.SysUsersDTO;
 import vip.websky.admin.sys.model.pojo.SysUsers;
+import vip.websky.admin.sys.model.vo.SysUserRoleVO;
 import vip.websky.admin.sys.model.vo.SysUsersVO;
+import vip.websky.core.base.model.dto.RequestDTO;
+import vip.websky.core.base.service.IBaseService;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * 基础用户(SysUsers)表服务接口
@@ -15,17 +17,15 @@ import java.util.List;
  * @author Yong.Yang
  * @since 2019-05-11 17:53:37
  */
-public interface ISysUsersService extends IService<SysUsers> {
+public interface ISysUsersService extends IBaseService<SysUsers, SysUsersVO, SysUsersDTO> {
 
-    SysUsersVO saveSysUsers(SysUsersDTO sysUsersDTO);
+    boolean saveUserRole(SysUserRoleDTO addDTO);
 
-    SysUsersVO updateSysUsers(SysUsersDTO sysUsersDTO);
+    boolean saveUserRoleBatch(Collection<SysUserRoleDTO> entityList);
 
-    Page<SysUsersVO> getSysUsersPage(SysUsersDTO sysUsersDTO);
-    
-    void removeSysUsers(List<String> idList);
+    boolean removeUserRole(SysUserRoleDTO removeDTO);
 
-    List<SysUsersVO> getSysUsersByObjs(SysUsersDTO sysUsersDTO);
+    boolean removeUserRoleBatch(Collection<SysUserRoleDTO> entityList);
 
-    void addRole(SysUsersDTO sysUsersDTO, SysRoleDTO sysRoleDTO);
+    Page<SysUserRoleVO> getRoleUsersPageByObjs(SysUserRoleDTO findDTO, RequestDTO requestDTO);
 }

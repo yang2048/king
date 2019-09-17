@@ -1,6 +1,7 @@
 package vip.websky.core.base.model.dto;
 
 import cn.hutool.core.util.StrUtil;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import vip.websky.core.config.prompt.StatusCode;
@@ -15,6 +16,7 @@ import java.io.Serializable;
  */
 @Slf4j
 @Data
+@ApiModel(value = "请求结果响应体")
 public class ResponseDTO<T> implements Serializable {
 
     private boolean success;

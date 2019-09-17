@@ -13,7 +13,7 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 系统配置
+ * 角色-菜单
  * </p>
  *
  * @author Yang.Yong
@@ -22,18 +22,16 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("y_sys_conf")
-@ApiModel(value = "SysConf对象", description = "系统配置 ")
-public class SysConf extends BaseModel implements Serializable {
-    @ApiModelProperty(value = "配置键")
-    @TableField("conf_key")
-    private String confKey;
+@TableName("y_sys_role_privilege")
+@ApiModel(value = "SysRolePrivilege对象", description = "角色-菜单 ")
+public class SysRolePrivilege extends BaseModel implements Serializable {
 
-    @ApiModelProperty(value = "配置值")
-    @TableField("conf_value")
-    private String confValue;
+    @ApiModelProperty(value = "角色id")
+    @TableField("role_id")
+    private String roleId;
 
-    @ApiModelProperty(value = "配置说明")
-    @TableField("conf_remark")
-    private String confRemark;
+    @ApiModelProperty(value = "权限id")
+    @TableField("privilege_id")
+    private String privilegeId;
+
 }

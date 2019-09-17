@@ -1,29 +1,36 @@
 package vip.websky.admin.sys.model.vo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import vip.websky.core.base.model.enums.StateEnum;
 import vip.websky.core.base.model.enums.UserSexEnum;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
- * 基础用户(SysUsers) 表dto实体类
- *
  * @author Yong.Yang
- * @since 2019-05-11 18:12:28
+ * @since 2019/8/26 22:12
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value = "SysUsers对象", description = "基础用户")
-public class SysUsersVO implements Serializable {
-    //用户识别号
-    private String id;
+public class SysUserRoleVO  implements Serializable {
+
+    @ApiModelProperty(value = "用户id")
+    @NotBlank(message = "用户名id为空")
+    private String userId;
+
+    @ApiModelProperty(value = "角色id")
+    @NotBlank(message = "角色id为空")
+    private String roleId;
+
+    @ApiModelProperty(value = "乐观锁")
+    private String revision;
+
     //所属机构
     private String orgId;
+    private String orgName;
     //用户名
     private String userAccount;
     //昵称
@@ -40,14 +47,5 @@ public class SysUsersVO implements Serializable {
     private String remark;
     //状态 0：冻结，1：正常，
     private StateEnum state;
-    //创建人
-    private String createdBy;
-    //创建时间
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdTime;
-    //更新人
-    private String updatedBy;
-    //更新时间
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updatedTime;
+
 }
