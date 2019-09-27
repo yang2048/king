@@ -173,7 +173,7 @@ public class SysUsersServiceImpl extends ServiceImpl<SysUsersMapper, SysUsers> i
     }
 
     @Override
-    public Page<SysUserRoleVO> getRoleUsersPageByObjs(SysUserRoleDTO findDTO, RequestDTO requestDTO) {
+    public Page<SysUserRoleVO> getUserRolePageByObjs(SysUserRoleDTO findDTO, RequestDTO requestDTO) {
         LambdaQueryWrapper<SysUserRole> qw = new LambdaQueryWrapper<>();
         qw.eq(SysUserRole::getRoleId, findDTO.getRoleId());
         qw.apply(StrUtil.isNotEmpty(requestDTO.getSearchValue()),"user_account like '%"+requestDTO.getSearchValue()+"%'");

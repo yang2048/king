@@ -55,6 +55,6 @@ public class SysUsersController implements BaseAction<SysUsers, SysUsersVO, SysU
 
     @RequestMapping(value = "/getRoleUsersPage", method = {RequestMethod.GET})
     public ResponseDTO<Page> getRoleUsersPage(Map<String, Object> searchValue, SysUserRoleDTO findDTO, RequestDTO requestDTO) {
-        return ResponseDTO.success(baseService().getRoleUsersPageByObjs(findDTO, requestDTO));
+        return ResponseDTO.success(baseService().getUserRolePageByObjs(findDTO, requestDTO));
     }
 }

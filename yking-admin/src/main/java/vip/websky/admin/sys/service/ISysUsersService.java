@@ -27,5 +27,5 @@ public interface ISysUsersService extends IBaseService<SysUsers, SysUsersVO, Sys
 
     boolean removeUserRoleBatch(Collection<SysUserRoleDTO> entityList);
 
-    Page<SysUserRoleVO> getRoleUsersPageByObjs(SysUserRoleDTO findDTO, RequestDTO requestDTO);
+    Page<SysUserRoleVO> getUserRolePageByObjs(SysUserRoleDTO findDTO, RequestDTO requestDTO);
 }

@@ -1,18 +1,26 @@
 package vip.websky.admin.sys.service.impl;
 
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import vip.websky.admin.sys.dao.SysRoleMapper;
+import vip.websky.admin.sys.dao.SysRolePrivilegeMapper;
+import vip.websky.admin.sys.dao.SysUserRoleMapper;
 import vip.websky.admin.sys.model.dto.SysRoleDTO;
+import vip.websky.admin.sys.model.dto.SysRolePrivilegeDTO;
 import vip.websky.admin.sys.model.pojo.SysRole;
+import vip.websky.admin.sys.model.pojo.SysRolePrivilege;
+import vip.websky.admin.sys.model.pojo.SysUserRole;
+import vip.websky.admin.sys.model.vo.SysRolePrivilegeVO;
 import vip.websky.admin.sys.model.vo.SysRoleVO;
 import vip.websky.admin.sys.service.ISysRoleService;
 import vip.websky.core.base.model.dto.RequestDTO;
@@ -33,6 +41,9 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements ISysRoleService {
+
+    @Autowired
+    private SysRolePrivilegeMapper sysRolePrivilegeMapper;
 
     @Override
     @Transactional
@@ -105,5 +116,34 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         Page<SysRole> page = new Page<>(requestDTO.getPageNumber(), requestDTO.getPageSize());
         IPage<SysRole> rolePage = baseMapper.selectPage(page, qw);
         return ObjectConvertUtils.copyToPage(rolePage, SysRoleVO.class, new Page<>());
+    }
+
+    @Override
+    public boolean saveRolePrivilege(SysRolePrivilegeDTO addDTO) {
+        SysRolePrivilege rolePrivilege = ObjectConvertUtils.copyToDest(addDTO, SysRolePrivilege.class);
+        return retBool(sysRolePrivilegeMapper.insert(rolePrivilege));
+    }
+
+    @Override
+    public boolean saveRolePrivilegeBatch(Collection<SysRolePrivilegeDTO> entityList) {
+        return false;
+    }
+
+    @Override
+    public boolean removeRolePrivilege(SysRolePrivilegeDTO removeDTO) {
+        LambdaQueryWrapper<SysRolePrivilege> qw = new LambdaQueryWrapper<>();
+        qw.eq(SysRolePrivilege::getRoleId, removeDTO.getRoleId());
+        qw.eq(SysRolePrivilege::getPrivilegeId, removeDTO.getPrivilegeId());
+        return retBool(sysRolePrivilegeMapper.delete(qw));
+    }
+
+    @Override
+    public boolean removeRolePrivilegeBatch(Collection<SysRolePrivilegeDTO> entityList) {
+        return false;
+    }
+
+    @Override
+    public Page<SysRolePrivilegeVO> getRolePrivilegePageByObjs(SysRolePrivilegeDTO findDTO, RequestDTO requestDTO) {
+        return null;
     }
 }
