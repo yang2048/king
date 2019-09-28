@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import vip.websky.admin.sys.dao.SysRoleMapper;
 import vip.websky.admin.sys.dao.SysRolePrivilegeMapper;
-import vip.websky.admin.sys.dao.SysUserRoleMapper;
 import vip.websky.admin.sys.model.dto.SysRoleDTO;
 import vip.websky.admin.sys.model.dto.SysRolePrivilegeDTO;
 import vip.websky.admin.sys.model.pojo.SysRole;
@@ -22,6 +21,7 @@ import vip.websky.admin.sys.model.pojo.SysRolePrivilege;
 import vip.websky.admin.sys.model.pojo.SysUserRole;
 import vip.websky.admin.sys.model.vo.SysRolePrivilegeVO;
 import vip.websky.admin.sys.model.vo.SysRoleVO;
+import vip.websky.admin.sys.model.vo.SysUserRoleVO;
 import vip.websky.admin.sys.service.ISysRoleService;
 import vip.websky.core.base.model.dto.RequestDTO;
 import vip.websky.core.config.prompt.StatusCode;
@@ -47,7 +47,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Override
     @Transactional
-    @CacheEvict(value="sysRoleCache")
+    @CacheEvict(value = "sysRoleCache")
     public SysRoleVO saveBase(SysRoleDTO addDTO) {
         Integer count = baseMapper.selectCount(
                 new QueryWrapper<SysRole>().lambda().eq(SysRole::getRoleName, addDTO.getRoleName()));
@@ -62,7 +62,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Override
     @Transactional
-    @CacheEvict(value="sysRoleCache")
+    @CacheEvict(value = "sysRoleCache")
     public boolean removeBase(Collection<? extends Serializable> idList) {
         int result = baseMapper.deleteBatchIds(idList);
         if (result != idList.size()) {
@@ -73,7 +73,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Override
     @Transactional
-    @CacheEvict(value="sysRoleCache")
+    @CacheEvict(value = "sysRoleCache")
     public boolean updateBase(SysRoleDTO updateDTO) {
         Integer count = baseMapper.selectCount(
                 new QueryWrapper<SysRole>().lambda().eq(SysRole::getRoleName, updateDTO.getRoleName()));
@@ -119,17 +119,21 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
+    @Transactional
     public boolean saveRolePrivilege(SysRolePrivilegeDTO addDTO) {
         SysRolePrivilege rolePrivilege = ObjectConvertUtils.copyToDest(addDTO, SysRolePrivilege.class);
         return retBool(sysRolePrivilegeMapper.insert(rolePrivilege));
     }
 
     @Override
+    @Transactional
     public boolean saveRolePrivilegeBatch(Collection<SysRolePrivilegeDTO> entityList) {
-        return false;
+        entityList.forEach(this::saveRolePrivilege);
+        return true;
     }
 
     @Override
+    @Transactional
     public boolean removeRolePrivilege(SysRolePrivilegeDTO removeDTO) {
         LambdaQueryWrapper<SysRolePrivilege> qw = new LambdaQueryWrapper<>();
         qw.eq(SysRolePrivilege::getRoleId, removeDTO.getRoleId());
@@ -138,12 +142,20 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
+    @Transactional
     public boolean removeRolePrivilegeBatch(Collection<SysRolePrivilegeDTO> entityList) {
-        return false;
+        entityList.forEach(this::removeRolePrivilege);
+        return true;
     }
 
     @Override
     public Page<SysRolePrivilegeVO> getRolePrivilegePageByObjs(SysRolePrivilegeDTO findDTO, RequestDTO requestDTO) {
-        return null;
+        LambdaQueryWrapper<SysRolePrivilege> qw = new LambdaQueryWrapper<>();
+        qw.eq(SysRolePrivilege::getRoleId, findDTO.getRoleId());
+        //qw.apply(StrUtil.isNotEmpty(requestDTO.getSearchValue()),"user_account like '%"+requestDTO.getSearchValue()+"%'");
+        qw.apply("ur.deleted = {0}", 0);
+        Page<SysUserRole> page = new Page<>(requestDTO.getPageNumber(), requestDTO.getPageSize());
+        IPage<SysUserRoleVO> userPage = sysRolePrivilegeMapper.selectSysUserRolePage(page, qw);
+        return ObjectConvertUtils.copyToPage(userPage, SysRolePrivilegeVO.class, new Page<>());
     }
 }
