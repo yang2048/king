@@ -18,10 +18,8 @@ import vip.websky.admin.sys.model.dto.SysRoleDTO;
 import vip.websky.admin.sys.model.dto.SysRolePrivilegeDTO;
 import vip.websky.admin.sys.model.pojo.SysRole;
 import vip.websky.admin.sys.model.pojo.SysRolePrivilege;
-import vip.websky.admin.sys.model.pojo.SysUserRole;
 import vip.websky.admin.sys.model.vo.SysRolePrivilegeVO;
 import vip.websky.admin.sys.model.vo.SysRoleVO;
-import vip.websky.admin.sys.model.vo.SysUserRoleVO;
 import vip.websky.admin.sys.service.ISysRoleService;
 import vip.websky.core.base.model.dto.RequestDTO;
 import vip.websky.core.config.prompt.StatusCode;
@@ -127,7 +125,13 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Override
     @Transactional
-    public boolean saveRolePrivilegeBatch(Collection<SysRolePrivilegeDTO> entityList) {
+    public boolean saveRolePrivilegeBatch(List<SysRolePrivilegeDTO> entityList) {
+        if (entityList.size() > 0) {
+            LambdaQueryWrapper<SysRolePrivilege> qw = new LambdaQueryWrapper<>();
+            qw.eq(SysRolePrivilege::getRoleId, entityList.get(0).getRoleId());
+            qw.apply("deleted = {0}", 0);
+            sysRolePrivilegeMapper.deleteByObj(qw);
+        }
         entityList.forEach(this::saveRolePrivilege);
         return true;
     }
@@ -143,7 +147,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Override
     @Transactional
-    public boolean removeRolePrivilegeBatch(Collection<SysRolePrivilegeDTO> entityList) {
+    public boolean removeRolePrivilegeBatch(List<SysRolePrivilegeDTO> entityList) {
         entityList.forEach(this::removeRolePrivilege);
         return true;
     }
@@ -152,10 +156,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     public Page<SysRolePrivilegeVO> getRolePrivilegePageByObjs(SysRolePrivilegeDTO findDTO, RequestDTO requestDTO) {
         LambdaQueryWrapper<SysRolePrivilege> qw = new LambdaQueryWrapper<>();
         qw.eq(SysRolePrivilege::getRoleId, findDTO.getRoleId());
-        //qw.apply(StrUtil.isNotEmpty(requestDTO.getSearchValue()),"user_account like '%"+requestDTO.getSearchValue()+"%'");
-        qw.apply("ur.deleted = {0}", 0);
-        Page<SysUserRole> page = new Page<>(requestDTO.getPageNumber(), requestDTO.getPageSize());
-        IPage<SysUserRoleVO> userPage = sysRolePrivilegeMapper.selectSysUserRolePage(page, qw);
-        return ObjectConvertUtils.copyToPage(userPage, SysRolePrivilegeVO.class, new Page<>());
+        qw.apply("p.deleted = {0}", 0);
+        Page<SysRolePrivilege> page = new Page<>(requestDTO.getPageNumber(), requestDTO.getPageSize());
+        IPage<SysRolePrivilegeVO> pageVO = sysRolePrivilegeMapper.selectSysUserRolePage(page, qw);
+        return ObjectConvertUtils.copyToPage(pageVO, SysRolePrivilegeVO.class, new Page<>());
     }
 }
