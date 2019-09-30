@@ -13,7 +13,7 @@ import vip.websky.admin.sys.model.dto.SysRolePrivilegeDTO;
 import vip.websky.admin.sys.model.pojo.SysRole;
 import vip.websky.admin.sys.model.vo.SysRoleVO;
 import vip.websky.admin.sys.service.ISysRoleService;
-import vip.websky.core.base.action.BaseAction;
+import vip.websky.core.base.action.CrudAction;
 import vip.websky.core.base.model.dto.RequestDTO;
 import vip.websky.core.base.model.dto.ResponseDTO;
 
@@ -30,7 +30,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/sys/role")
-public class SysRoleController implements BaseAction<SysRole, SysRoleVO, SysRoleDTO, ISysRoleService> {
+public class SysRoleController implements CrudAction<SysRole, SysRoleVO, SysRoleDTO, ISysRoleService> {
     @Autowired
     private ISysRoleService roleService;
 

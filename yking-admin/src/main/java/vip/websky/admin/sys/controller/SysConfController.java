@@ -7,7 +7,7 @@ import vip.websky.admin.sys.model.dto.SysConfDTO;
 import vip.websky.admin.sys.model.pojo.SysConf;
 import vip.websky.admin.sys.model.vo.SysConfVO;
 import vip.websky.admin.sys.service.ISysConfService;
-import vip.websky.core.base.action.BaseAction;
+import vip.websky.core.base.action.CrudAction;
 
 /**
  * <p>
@@ -19,7 +19,7 @@ import vip.websky.core.base.action.BaseAction;
  */
 @RestController
 @RequestMapping("/sys/conf")
-public class SysConfController implements BaseAction<SysConf, SysConfVO, SysConfDTO, ISysConfService> {
+public class SysConfController implements CrudAction<SysConf, SysConfVO, SysConfDTO, ISysConfService> {
 
     private final ISysConfService sysConfService;
 

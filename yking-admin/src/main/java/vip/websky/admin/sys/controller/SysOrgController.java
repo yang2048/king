@@ -7,7 +7,7 @@ import vip.websky.admin.sys.model.dto.SysOrgDTO;
 import vip.websky.admin.sys.model.pojo.SysOrg;
 import vip.websky.admin.sys.model.vo.SysOrgVO;
 import vip.websky.admin.sys.service.ISysOrgService;
-import vip.websky.core.base.action.BaseAction;
+import vip.websky.core.base.action.CrudAction;
 
 /**
  * <p>
@@ -19,7 +19,7 @@ import vip.websky.core.base.action.BaseAction;
  */
 @RestController
 @RequestMapping("/sys/org")
-public class SysOrgController implements BaseAction<SysOrg, SysOrgVO, SysOrgDTO, ISysOrgService> {
+public class SysOrgController implements CrudAction<SysOrg, SysOrgVO, SysOrgDTO, ISysOrgService> {
 
     private final ISysOrgService sysOrgService;
     public SysOrgController(ISysOrgService sysOrgService) {

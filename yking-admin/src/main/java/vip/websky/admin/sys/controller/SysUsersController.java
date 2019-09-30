@@ -12,7 +12,7 @@ import vip.websky.admin.sys.model.dto.SysUsersDTO;
 import vip.websky.admin.sys.model.pojo.SysUsers;
 import vip.websky.admin.sys.model.vo.SysUsersVO;
 import vip.websky.admin.sys.service.ISysUsersService;
-import vip.websky.core.base.action.BaseAction;
+import vip.websky.core.base.action.CrudAction;
 import vip.websky.core.base.model.dto.RequestDTO;
 import vip.websky.core.base.model.dto.ResponseDTO;
 
@@ -29,7 +29,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/sys/users")
-public class SysUsersController implements BaseAction<SysUsers, SysUsersVO, SysUsersDTO,ISysUsersService> {
+public class SysUsersController implements CrudAction<SysUsers, SysUsersVO, SysUsersDTO,ISysUsersService> {
     @Autowired
     private ISysUsersService usersService;
 
@@ -40,7 +40,6 @@ public class SysUsersController implements BaseAction<SysUsers, SysUsersVO, SysU
 
     @RequestMapping(value = "/saveUserRole", method = {RequestMethod.POST})
     public ResponseDTO saveUserRoleBatch(@RequestBody @Validated List<SysUserRoleDTO> sysUserRoleDTOList) {
-        //List<SysUserRoleDTO> sysUserRoleDTOList = new ArrayList<>();
         return ResponseDTO.success(baseService().saveUserRoleBatch(sysUserRoleDTOList));
     }
 

@@ -10,7 +10,7 @@ import vip.websky.admin.sys.model.dto.SysUserRoleDTO;
 import vip.websky.admin.sys.model.pojo.SysPrivilege;
 import vip.websky.admin.sys.model.vo.SysPrivilegeVO;
 import vip.websky.admin.sys.service.ISysPrivilegeService;
-import vip.websky.core.base.action.BaseAction;
+import vip.websky.core.base.action.CrudAction;
 import vip.websky.core.base.model.dto.RequestDTO;
 import vip.websky.core.base.model.dto.ResponseDTO;
 
@@ -27,7 +27,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/sys/privilege")
-public class SysPrivilegeController implements BaseAction<SysPrivilege, SysPrivilegeVO, SysPrivilegeDTO, ISysPrivilegeService> {
+public class SysPrivilegeController implements CrudAction<SysPrivilege, SysPrivilegeVO, SysPrivilegeDTO, ISysPrivilegeService> {
     @Autowired
     private ISysPrivilegeService sysPrivilegeService;
 
