@@ -35,9 +35,17 @@ public class SysPrivilege extends BaseModel implements Serializable {
     @TableField("code")
     private String code;
 
-    @ApiModelProperty(value = "名称")
+    @ApiModelProperty(value = "菜单名称")
     @TableField("title")
     private String title;
+
+    @ApiModelProperty(value = "路由名称")
+    @TableField("name")
+    private String name;
+
+    @ApiModelProperty(value = "重定向地址")
+    @TableField("redirect")
+    private String redirect;
 
     @ApiModelProperty(value = "组件")
     @TableField("component")

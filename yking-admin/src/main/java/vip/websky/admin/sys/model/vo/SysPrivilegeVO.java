@@ -30,6 +30,12 @@ public class SysPrivilegeVO implements Serializable {
     @ApiModelProperty(value = "名称")
     private String title;
 
+    @ApiModelProperty(value = "路由名称")
+    private String name;
+
+    @ApiModelProperty(value = "重定向地址")
+    private String redirect;
+
     @ApiModelProperty(value = "组件")
     private String component;
 
